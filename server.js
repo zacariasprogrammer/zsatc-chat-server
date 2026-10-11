@@ -1,48 +1,44 @@
 /* ============================================================
-   ZSATC Chat Server v5 — private rooms + profiles + images
-   + reactions + typing indicators + read receipts
-   + ADMIN API (moderation panel)
+   ZSATC Chat Server v6 — private rooms + ACCOUNTS + voice
+   + avatars + images + reactions + typing + read receipts
+   + ADMIN API + power modes
    Node.js + Express + WebSockets. Deploy as a Render Web Service.
 
-   Admin: set the ADMIN_TOKEN env var on Render. The admin panel
-   (zsatcmessengeradminpanel.html, hosted on the web OS site) sends
-   it as the x-admin-token header. Without ADMIN_TOKEN set, the
-   admin API is disabled.
+   Accounts: POST /api/signup {user, pass} and POST /api/login
+   {user, pass} -> { ok, token, user }. Passwords hashed with
+   scrypt. The client sends the token in hello { token, ... }.
+   A valid token locks the username (no spoofing); guests can
+   still join but can't claim a registered name.
+   NOTE: accounts live in memory — they reset if the server
+   restarts (free-tier sleep). The client re-logs-in gracefully.
 
-   Protocol (unchanged from v4):
-   - hello { user, phone, room } -> history, room, online
-   - send { text } -> message { kind:'text' }
-   - send_image { image } -> message { kind:'image' }
-   - react { id, emoji } -> reaction { id, reactions }
-   - typing {} -> typing { user } (relayed, throttled)
-   - read { id } -> read { user, id } (relayed)
-   New live mod events (broadcast to room):
-   - message_deleted { id } | room_cleared {} | user_kicked { user }
-   - kicked { reason } (sent to the kicked socket before close)
-   - message { message.system: true } (admin announcements)
+   Protocol additions (v6):
+   - send_audio { audio } -> message { kind:'audio' } (data:audio/, 1MB cap)
+   - hello { token, avatar } -> avatar shown in messages + online list
+   - auth_expired {} (bad/unknown token — client must log in again)
+   - messages carry { avatar, verified }
+   - online users carry { avatar, verified }
 
-   Admin API (all require x-admin-token):
-   - GET  /admin/stats
-   - GET  /admin/rooms
-   - GET  /admin/room/:code
-   - POST /admin/delete-message { room, id }
-   - POST /admin/clear-room { room }
-   - POST /admin/kick { room, user }
-   - POST /admin/announce { text }
+   Admin API: all previous endpoints, plus
+   - GET  /admin/accounts
+   - POST /admin/delete-account { user }
    ============================================================ */
 
 const express = require('express');
 const http = require('http');
 const crypto = require('crypto');
+const { promisify } = require('util');
 const { WebSocketServer } = require('ws');
+
+const scrypt = promisify(crypto.scrypt);
 
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
-app.use(express.json({ limit: '1mb' }));
+app.use(express.json({ limit: '2mb' }));
 
-// CORS: the admin panel is hosted on the web OS site, the API on Render
+// CORS: the web OS site + admin panel live on another origin
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Content-Type, x-admin-token');
@@ -52,17 +48,24 @@ app.use((req, res, next) => {
 });
 
 const MAX_MESSAGES = 200;
-const MAX_IMAGE_BYTES = 700 * 1024; // 700KB cap per image (client downscales first)
+const MAX_IMAGE_BYTES = 700 * 1024;
+const MAX_AUDIO_BYTES = 1024 * 1024; // 1MB voice messages
+const MAX_AVATAR_BYTES = 30 * 1024; // 30KB profile pics
 const REACT_EMOJIS = ['❤️', '👍', '😂', '😮', '😢', '🔥', '👏'];
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || '';
-const rooms = new Map(); // roomCode -> { messages: [], clients: Map(ws -> {user, phone, lastMsg, lastTyping}), lastActive }
+const rooms = new Map();
 let nextId = 1;
 
 // server power mode: 'online' | 'maintenance' | 'shutdown'
-// maintenance/shutdown block joins and sends; the admin API stays up
 let serverMode = 'online';
 let modeMessage = '';
 const MODE_LABEL = { online: 'online', maintenance: 'maintenance mode', shutdown: 'shut down' };
+
+// accounts (in-memory — resets on server restart)
+const accounts = new Map(); // username -> { salt, hash, created }
+const tokens = new Map();   // token -> username
+
+/* ---------------- helpers ---------------- */
 
 function cleanName(raw) {
   return String(raw || 'guest')
@@ -85,6 +88,17 @@ function cleanRoom(raw) {
     .slice(0, 32) || 'lobby';
 }
 
+function cleanAvatar(raw) {
+  const s = String(raw || '');
+  if (!s.startsWith('data:image/') || s.length > MAX_AVATAR_BYTES) return '';
+  return s;
+}
+
+function cleanPass(raw) {
+  const p = String(raw || '');
+  return (p.length >= 4 && p.length <= 64) ? p : null;
+}
+
 function getRoom(code) {
   if (!rooms.has(code)) rooms.set(code, { messages: [], clients: new Map(), lastActive: Date.now() });
   return rooms.get(code);
@@ -93,7 +107,7 @@ function getRoom(code) {
 function onlineUsers(room) {
   const seen = new Map();
   for (const c of room.clients.values()) {
-    if (!seen.has(c.user)) seen.set(c.user, { user: c.user, phone: c.phone });
+    if (!seen.has(c.user)) seen.set(c.user, { user: c.user, phone: c.phone, avatar: c.avatar || '', verified: !!c.verified });
   }
   return [...seen.values()];
 }
@@ -122,6 +136,63 @@ function pushMessage(room, m) {
   broadcastToRoom(room, { type: 'message', message: m });
 }
 
+async function hashPass(pass) {
+  const salt = crypto.randomBytes(16).toString('hex');
+  const hash = (await scrypt(pass, salt, 64)).toString('hex');
+  return { salt, hash };
+}
+
+async function verifyPass(pass, salt, hash) {
+  try {
+    const h = (await scrypt(pass, salt, 64)).toString('hex');
+    return h.length === hash.length && crypto.timingSafeEqual(Buffer.from(h, 'hex'), Buffer.from(hash, 'hex'));
+  } catch (e) { return false; }
+}
+
+// brute-force guard: 10 auth attempts per IP per minute
+const authAttempts = new Map();
+function authRateLimited(req, res) {
+  const ip = req.ip || (req.connection && req.connection.remoteAddress) || 'x';
+  const now = Date.now();
+  let a = authAttempts.get(ip);
+  if (!a || now > a.reset) { a = { count: 0, reset: now + 60000 }; authAttempts.set(ip, a); }
+  a.count++;
+  if (a.count > 10) {
+    res.status(429).json({ ok: false, error: 'Too many attempts. Try again in a minute.' });
+    return true;
+  }
+  return false;
+}
+
+/* ---------------- public account API ---------------- */
+
+app.post('/api/signup', async (req, res) => {
+  if (authRateLimited(req, res)) return;
+  const user = cleanName(req.body && req.body.user);
+  const pass = cleanPass(req.body && req.body.pass);
+  if (!user || user === 'guest') return res.json({ ok: false, error: 'Pick a valid username.' });
+  if (!pass) return res.json({ ok: false, error: 'Password must be 4-64 characters.' });
+  if (accounts.has(user)) return res.json({ ok: false, error: 'That name is taken.' });
+  const { salt, hash } = await hashPass(pass);
+  accounts.set(user, { salt, hash, created: Date.now() });
+  const token = crypto.randomBytes(32).toString('hex');
+  tokens.set(token, user);
+  res.json({ ok: true, token, user });
+});
+
+app.post('/api/login', async (req, res) => {
+  if (authRateLimited(req, res)) return;
+  const user = cleanName(req.body && req.body.user);
+  const pass = String((req.body && req.body.pass) || '');
+  const acc = accounts.get(user);
+  if (!acc || !(await verifyPass(pass, acc.salt, acc.hash))) {
+    return res.json({ ok: false, error: 'Wrong username or password.' });
+  }
+  const token = crypto.randomBytes(32).toString('hex');
+  tokens.set(token, user);
+  res.json({ ok: true, token, user });
+});
+
 /* ---------------- admin auth ---------------- */
 
 function adminAuth(req, res, next) {
@@ -143,7 +214,7 @@ function adminAuth(req, res, next) {
 app.get('/admin/stats', adminAuth, (req, res) => {
   let users = 0, messages = 0;
   for (const r of rooms.values()) { users += r.clients.size; messages += r.messages.length; }
-  res.json({ ok: true, version: 5, uptime: Math.floor(process.uptime()), rooms: rooms.size, users, messages, mode: serverMode });
+  res.json({ ok: true, version: 6, uptime: Math.floor(process.uptime()), rooms: rooms.size, users, messages, mode: serverMode, accounts: accounts.size });
 });
 
 app.get('/admin/rooms', adminAuth, (req, res) => {
@@ -159,6 +230,29 @@ app.get('/admin/room/:code', adminAuth, (req, res) => {
   const room = rooms.get(code);
   if (!room) return res.json({ ok: false, error: 'No such room.' });
   res.json({ ok: true, room: code, users: onlineUsers(room), messages: room.messages.slice(-100) });
+});
+
+app.get('/admin/accounts', adminAuth, (req, res) => {
+  const list = [...accounts.entries()].map(([user, a]) => ({ user, created: a.created }));
+  list.sort((x, y) => x.user.localeCompare(y.user));
+  res.json({ ok: true, accounts: list });
+});
+
+app.post('/admin/delete-account', adminAuth, (req, res) => {
+  const user = cleanName(req.body && req.body.user);
+  if (!accounts.has(user)) return res.json({ ok: false, error: 'No such account.' });
+  accounts.delete(user);
+  for (const [t, u] of [...tokens]) if (u === user) tokens.delete(t);
+  // bounce their live sessions
+  for (const room of rooms.values()) {
+    for (const [ws, c] of [...room.clients]) {
+      if (c.user === user && c.verified) {
+        try { ws.send(JSON.stringify({ type: 'auth_expired' })); } catch (e) {}
+        try { ws.close(4002, 'auth_expired'); } catch (e) {}
+      }
+    }
+  }
+  res.json({ ok: true });
 });
 
 app.post('/admin/delete-message', adminAuth, (req, res) => {
@@ -208,7 +302,6 @@ app.post('/admin/announce', adminAuth, (req, res) => {
   res.json({ ok: true, rooms: n });
 });
 
-// server power: online | maintenance | shutdown
 app.post('/admin/power', adminAuth, (req, res) => {
   const mode = String((req.body && req.body.mode) || '').trim();
   if (!['online', 'maintenance', 'shutdown'].includes(mode)) {
@@ -221,7 +314,6 @@ app.post('/admin/power', adminAuth, (req, res) => {
   const sysText = mode === 'online'
     ? '🟢 Server is back online.'
     : `${icon} Server ${MODE_LABEL[mode]}${message ? ': ' + message : ''}`;
-  // tell every room, then bounce everyone if we're going down
   for (const room of rooms.values()) {
     pushMessage(room, { id: nextId++, user: 'ZSATC Admin', phone: '', kind: 'text', text: sysText, ts: Date.now(), reactions: {}, system: true });
     if (mode !== 'online') {
@@ -239,7 +331,7 @@ app.post('/admin/power', adminAuth, (req, res) => {
 app.get('/health', (req, res) => {
   let users = 0, messages = 0;
   for (const r of rooms.values()) { users += r.clients.size; messages += r.messages.length; }
-  res.json({ ok: true, service: 'zsatc-chat-server', version: 5, rooms: rooms.size, users, messages, admin: !!ADMIN_TOKEN, mode: serverMode });
+  res.json({ ok: true, service: 'zsatc-chat-server', version: 6, rooms: rooms.size, users, messages, admin: !!ADMIN_TOKEN, mode: serverMode });
 });
 
 app.get('/', (req, res) => {
@@ -262,7 +354,27 @@ wss.on('connection', (ws) => {
       }
       myCode = cleanRoom(d.room);
       myRoom = getRoom(myCode);
-      myRoom.clients.set(ws, { user: cleanName(d.user), phone: cleanPhone(d.phone), lastMsg: 0, lastTyping: 0 });
+      // account auth: a valid token locks the username; guests can't spoof registered names
+      let user = cleanName(d.user), verified = false;
+      const tok = String(d.token || '');
+      if (tok) {
+        const tUser = tokens.get(tok);
+        if (!tUser || !accounts.has(tUser)) {
+          try { ws.send(JSON.stringify({ type: 'auth_expired' })); } catch (e) {}
+          try { ws.close(4002, 'auth_expired'); } catch (e) {}
+          return;
+        }
+        user = tUser;
+        verified = true;
+      } else if (accounts.has(user)) {
+        try { ws.send(JSON.stringify({ type: 'error', error: 'That name has an account. Log in to use it.' })); } catch (e) {}
+        try { ws.close(4003, 'name_taken'); } catch (e) {}
+        return;
+      }
+      myRoom.clients.set(ws, {
+        user, phone: cleanPhone(d.phone), avatar: cleanAvatar(d.avatar),
+        verified, lastMsg: 0, lastTyping: 0
+      });
       ws.send(JSON.stringify({ type: 'history', messages: myRoom.messages }));
       ws.send(JSON.stringify({ type: 'room', room: myCode }));
       broadcastToRoom(myRoom, { type: 'online', users: onlineUsers(myRoom) });
@@ -279,7 +391,7 @@ wss.on('connection', (ws) => {
       }
       const text = String(d.text || '').trim().slice(0, 500);
       if (!text || throttled(ws, c)) return;
-      pushMessage(myRoom, { id: nextId++, user: c.user, phone: c.phone, kind: 'text', text, ts: Date.now(), reactions: {} });
+      pushMessage(myRoom, { id: nextId++, user: c.user, phone: c.phone, avatar: c.avatar, verified: c.verified, kind: 'text', text, ts: Date.now(), reactions: {} });
       return;
     }
 
@@ -294,7 +406,22 @@ wss.on('connection', (ws) => {
         return;
       }
       if (throttled(ws, c)) return;
-      pushMessage(myRoom, { id: nextId++, user: c.user, phone: c.phone, kind: 'image', image: img, ts: Date.now(), reactions: {} });
+      pushMessage(myRoom, { id: nextId++, user: c.user, phone: c.phone, avatar: c.avatar, verified: c.verified, kind: 'image', image: img, ts: Date.now(), reactions: {} });
+      return;
+    }
+
+    if (d.type === 'send_audio') {
+      if (serverMode !== 'online') {
+        ws.send(JSON.stringify({ type: 'error', error: `Server is ${MODE_LABEL[serverMode]}.` }));
+        return;
+      }
+      const au = String(d.audio || '');
+      if (!au.startsWith('data:audio/') || au.length > MAX_AUDIO_BYTES) {
+        ws.send(JSON.stringify({ type: 'error', error: au.length > MAX_AUDIO_BYTES ? 'Voice message too long.' : 'Invalid audio.' }));
+        return;
+      }
+      if (throttled(ws, c)) return;
+      pushMessage(myRoom, { id: nextId++, user: c.user, phone: c.phone, avatar: c.avatar, verified: c.verified, kind: 'audio', audio: au, ts: Date.now(), reactions: {} });
       return;
     }
 
@@ -341,4 +468,4 @@ wss.on('connection', (ws) => {
 });
 
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => console.log(`ZSATC chat server v5 listening on ${PORT}`));
+server.listen(PORT, () => console.log(`ZSATC chat server v6 listening on ${PORT}`));

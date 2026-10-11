@@ -1,0 +1,13 @@
+# Render Blueprint — deploys the ZSATC chat server in one click.
+# Render dashboard → New → Blueprint → select your repo.
+# (Node's "requirements.txt" is package.json — already included.)
+
+services:
+  - type: web
+    name: zsatc-chat-server
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /health
+    autoDeploy: true

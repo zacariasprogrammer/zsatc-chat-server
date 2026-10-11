@@ -1,1 +1,299 @@
-LyogPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CiAgIFpTQVRDIENoYXQgU2VydmVyIHY1IOKAlCBwcml2YXRlIHJvb21zICsgcHJvZmlsZXMgKyBpbWFnZXMKICAgKyByZWFjdGlvbnMgKyB0eXBpbmcgaW5kaWNhdG9ycyArIHJlYWQgcmVjZWlwdHMKICAgKyBBRE1JTiBBUEkgKG1vZGVyYXRpb24gcGFuZWwpCiAgIE5vZGUuanMgKyBFeHByZXNzICsgV2ViU29ja2V0cy4gRGVwbG95IGFzIGEgUmVuZGVyIFdlYiBTZXJ2aWNlLgoKICAgQWRtaW46IHNldCB0aGUgQURNSU5fVE9LRU4gZW52IHZhciBvbiBSZW5kZXIuIFRoZSBhZG1pbiBwYW5lbAogICAoenNhdGNtZXNzZW5nZXJhZG1pbnBhbmVsLmh0bWwsIGhvc3RlZCBvbiB0aGUgd2ViIE9TIHNpdGUpIHNlbmRzCiAgIGl0IGFzIHRoZSB4LWFkbWluLXRva2VuIGhlYWRlci4gV2l0aG91dCBBRE1JTl9UT0tFTiBzZXQsIHRoZQogICBhZG1pbiBBUEkgaXMgZGlzYWJsZWQuCgogICBQcm90b2NvbCAodW5jaGFuZ2VkIGZyb20gdjQpOgogICAtIGhlbGxvIHsgdXNlciwgcGhvbmUsIHJvb20gfSAtPiBoaXN0b3J5LCByb29tLCBvbmxpbmUKICAgLSBzZW5kIHsgdGV4dCB9IC0+IG1lc3NhZ2UgeyBraW5kOid0ZXh0JyB9CiAgIC0gc2VuZF9pbWFnZSB7IGltYWdlIH0gLT4gbWVzc2FnZSB7IGtpbmQ6J2ltYWdlJyB9CiAgIC0gcmVhY3QgeyBpZCwgZW1vamkgfSAtPiByZWFjdGlvbiB7IGlkLCByZWFjdGlvbnMgfQogICAtIHR5cGluZyB7fSAtPiB0eXBpbmcgeyB1c2VyIH0gKHJlbGF5ZWQsIHRocm90dGxlZCkKICAgLSByZWFkIHsgaWQgfSAtPiByZWFkIHsgdXNlciwgaWQgfSAocmVsYXllZCkKICAgTmV3IGxpdmUgbW9kIGV2ZW50cyAoYnJvYWRjYXN0IHRvIHJvb20pOgogICAtIG1lc3NhZ2VfZGVsZXRlZCB7IGlkIH0gfCByb29tX2NsZWFyZWQge30gfCB1c2VyX2tpY2tlZCB7IHVzZXIgfQogICAtIGtpY2tlZCB7IHJlYXNvbiB9IChzZW50IHRvIHRoZSBraWNrZWQgc29ja2V0IGJlZm9yZSBjbG9zZSkKICAgLSBtZXNzYWdlIHsgbWVzc2FnZS5zeXN0ZW06IHRydWUgfSAoYWRtaW4gYW5ub3VuY2VtZW50cykKCiAgIEFkbWluIEFQSSAoYWxsIHJlcXVpcmUgeC1hZG1pbi10b2tlbik6CiAgIC0gR0VUICAvYWRtaW4vc3RhdHMKICAgLSBHRVQgIC9hZG1pbi9yb29tcwogICAtIEdFVCAgL2FkbWluL3Jvb20vOmNvZGUKICAgLSBQT1NUIC9hZG1pbi9kZWxldGUtbWVzc2FnZSB7IHJvb20sIGlkIH0KICAgLSBQT1NUIC9hZG1pbi9jbGVhci1yb29tIHsgcm9vbSB9CiAgIC0gUE9TVCAvYWRtaW4va2ljayB7IHJvb20sIHVzZXIgfQogICAtIFBPU1QgL2FkbWluL2Fubm91bmNlIHsgdGV4dCB9CiAgID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PSAqLwoKY29uc3QgZXhwcmVzcyA9IHJlcXVpcmUoJ2V4cHJlc3MnKTsKY29uc3QgaHR0cCA9IHJlcXVpcmUoJ2h0dHAnKTsKY29uc3QgY3J5cHRvID0gcmVxdWlyZSgnY3J5cHRvJyk7CmNvbnN0IHsgV2ViU29ja2V0U2VydmVyIH0gPSByZXF1aXJlKCd3cycpOwoKY29uc3QgYXBwID0gZXhwcmVzcygpOwpjb25zdCBzZXJ2ZXIgPSBodHRwLmNyZWF0ZVNlcnZlcihhcHApOwpjb25zdCB3c3MgPSBuZXcgV2ViU29ja2V0U2VydmVyKHsgc2VydmVyIH0pOwoKYXBwLnVzZShleHByZXNzLmpzb24oeyBsaW1pdDogJzFtYicgfSkpOwoKLy8gQ09SUzogdGhlIGFkbWluIHBhbmVsIGlzIGhvc3RlZCBvbiB0aGUgd2ViIE9TIHNpdGUsIHRoZSBBUEkgb24gUmVuZGVyCmFwcC51c2UoKHJlcSwgcmVzLCBuZXh0KSA9PiB7CiAgcmVzLmhlYWRlcignQWNjZXNzLUNvbnRyb2wtQWxsb3ctT3JpZ2luJywgJyonKTsKICByZXMuaGVhZGVyKCdBY2Nlc3MtQ29udHJvbC1BbGxvdy1IZWFkZXJzJywgJ0NvbnRlbnQtVHlwZSwgeC1hZG1pbi10b2tlbicpOwogIHJlcy5oZWFkZXIoJ0FjY2Vzcy1Db250cm9sLUFsbG93LU1ldGhvZHMnLCAnR0VULCBQT1NULCBPUFRJT05TJyk7CiAgaWYgKHJlcS5tZXRob2QgPT09ICdPUFRJT05TJykgcmV0dXJuIHJlcy5zZW5kU3RhdHVzKDIwNCk7CiAgbmV4dCgpOwp9KTsKCmNvbnN0IE1BWF9NRVNTQUdFUyA9IDIwMDsKY29uc3QgTUFYX0lNQUdFX0JZVEVTID0gNzAwICogMTAyNDsgLy8gNzAwS0IgY2FwIHBlciBpbWFnZSAoY2xpZW50IGRvd25zY2FsZXMgZmlyc3QpCmNvbnN0IFJFQUNUX0VNT0pJUyA9IFsn4p2k77iPJywgJ/CfkY0nLCAn8J+YgicsICfwn5iuJywgJ/CfmKInLCAn8J+UpScsICfwn5GPJ107CmNvbnN0IEFETUlOX1RPS0VOID0gcHJvY2Vzcy5lbnYuQURNSU5fVE9LRU4gfHwgJyc7CmNvbnN0IHJvb21zID0gbmV3IE1hcCgpOyAvLyByb29tQ29kZSAtPiB7IG1lc3NhZ2VzOiBbXSwgY2xpZW50czogTWFwKHdzIC0+IHt1c2VyLCBwaG9uZSwgbGFzdE1zZywgbGFzdFR5cGluZ30pLCBsYXN0QWN0aXZlIH0KbGV0IG5leHRJZCA9IDE7CgpmdW5jdGlvbiBjbGVhbk5hbWUocmF3KSB7CiAgcmV0dXJuIFN0cmluZyhyYXcgfHwgJ2d1ZXN0JykKICAgIC5yZXBsYWNlKC9bXkEtWmEtejAtOSBfLV0vZywgJycpCiAgICAudHJpbSgpCiAgICAuc2xpY2UoMCwgMjQpIHx8ICdndWVzdCc7Cn0KCmZ1bmN0aW9uIGNsZWFuUGhvbmUocmF3KSB7CiAgcmV0dXJuIFN0cmluZyhyYXcgfHwgJycpCiAgICAucmVwbGFjZSgvW14wLTkrKClcLS5cc10vZywgJycpCiAgICAudHJpbSgpCiAgICAuc2xpY2UoMCwgMjApOwp9CgpmdW5jdGlvbiBjbGVhblJvb20ocmF3KSB7CiAgcmV0dXJuIFN0cmluZyhyYXcgfHwgJ2xvYmJ5JykKICAgIC5yZXBsYWNlKC9bXkEtWmEtejAtOV8tXS9nLCAnJykKICAgIC50cmltKCkKICAgIC5zbGljZSgwLCAzMikgfHwgJ2xvYmJ5JzsKfQoKZnVuY3Rpb24gZ2V0Um9vbShjb2RlKSB7CiAgaWYgKCFyb29tcy5oYXMoY29kZSkpIHJvb21zLnNldChjb2RlLCB7IG1lc3NhZ2VzOiBbXSwgY2xpZW50czogbmV3IE1hcCgpLCBsYXN0QWN0aXZlOiBEYXRlLm5vdygpIH0pOwogIHJldHVybiByb29tcy5nZXQoY29kZSk7Cn0KCmZ1bmN0aW9uIG9ubGluZVVzZXJzKHJvb20pIHsKICBjb25zdCBzZWVuID0gbmV3IE1hcCgpOwogIGZvciAoY29uc3QgYyBvZiByb29tLmNsaWVudHMudmFsdWVzKCkpIHsKICAgIGlmICghc2Vlbi5oYXMoYy51c2VyKSkgc2Vlbi5zZXQoYy51c2VyLCB7IHVzZXI6IGMudXNlciwgcGhvbmU6IGMucGhvbmUgfSk7CiAgfQogIHJldHVybiBbLi4uc2Vlbi52YWx1ZXMoKV07Cn0KCmZ1bmN0aW9uIGJyb2FkY2FzdFRvUm9vbShyb29tLCBvYmosIGV4Y2VwdCkgewogIGNvbnN0IGRhdGEgPSBKU09OLnN0cmluZ2lmeShvYmopOwogIGZvciAoY29uc3QgW3dzXSBvZiByb29tLmNsaWVudHMpIHsKICAgIGlmICh3cyAhPT0gZXhjZXB0ICYmIHdzLnJlYWR5U3RhdGUgPT09IDEpIHdzLnNlbmQoZGF0YSk7CiAgfQp9CgpmdW5jdGlvbiB0aHJvdHRsZWQod3MsIGMpIHsKICBjb25zdCBub3cgPSBEYXRlLm5vdygpOwogIGlmIChub3cgLSBjLmxhc3RNc2cgPCAyMDAwKSB7CiAgICB3cy5zZW5kKEpTT04uc3RyaW5naWZ5KHsgdHlwZTogJ2Vycm9yJywgZXJyb3I6ICdTbG93IGRvd24gYSBsaXR0bGUuJyB9KSk7CiAgICByZXR1cm4gdHJ1ZTsKICB9CiAgYy5sYXN0TXNnID0gbm93OwogIHJldHVybiBmYWxzZTsKfQoKZnVuY3Rpb24gcHVzaE1lc3NhZ2Uocm9vbSwgbSkgewogIHJvb20ubWVzc2FnZXMucHVzaChtKTsKICByb29tLmxhc3RBY3RpdmUgPSBEYXRlLm5vdygpOwogIGlmIChyb29tLm1lc3NhZ2VzLmxlbmd0aCA+IE1BWF9NRVNTQUdFUykgcm9vbS5tZXNzYWdlcy5zaGlmdCgpOwogIGJyb2FkY2FzdFRvUm9vbShyb29tLCB7IHR5cGU6ICdtZXNzYWdlJywgbWVzc2FnZTogbSB9KTsKfQoKLyogLS0tLS0tLS0tLS0tLS0tLSBhZG1pbiBhdXRoIC0tLS0tLS0tLS0tLS0tLS0gKi8KCmZ1bmN0aW9uIGFkbWluQXV0aChyZXEsIHJlcywgbmV4dCkgewogIGlmICghQURNSU5fVE9LRU4pIHsKICAgIHJldHVybiByZXMuc3RhdHVzKDUwMykuanNvbih7IG9rOiBmYWxzZSwgZXJyb3I6ICdBZG1pbiBwYW5lbCBpcyBub3QgY29uZmlndXJlZC4gU2V0IEFETUlOX1RPS0VOIGluIHRoZSBzZXJ2ZXIgZW52aXJvbm1lbnQuJyB9KTsKICB9CiAgY29uc3QgdCA9IFN0cmluZyhyZXEuaGVhZGVyKCd4LWFkbWluLXRva2VuJykgfHwgcmVxLnF1ZXJ5LnRva2VuIHx8ICcnKTsKICBsZXQgZ29vZCA9IGZhbHNlOwogIHRyeSB7CiAgICBnb29kID0gdC5sZW5ndGggPT09IEFETUlOX1RPS0VOLmxlbmd0aCAmJgogICAgICBjcnlwdG8udGltaW5nU2FmZUVxdWFsKEJ1ZmZlci5mcm9tKHQpLCBCdWZmZXIuZnJvbShBRE1JTl9UT0tFTikpOwogIH0gY2F0Y2ggKGUpIHsgZ29vZCA9IGZhbHNlOyB9CiAgaWYgKCFnb29kKSByZXR1cm4gcmVzLnN0YXR1cyg0MDMpLmpzb24oeyBvazogZmFsc2UsIGVycm9yOiAnQmFkIGFkbWluIHRva2VuLicgfSk7CiAgbmV4dCgpOwp9CgovKiAtLS0tLS0tLS0tLS0tLS0tIGFkbWluIEFQSSAtLS0tLS0tLS0tLS0tLS0tICovCgphcHAuZ2V0KCcvYWRtaW4vc3RhdHMnLCBhZG1pbkF1dGgsIChyZXEsIHJlcykgPT4gewogIGxldCB1c2VycyA9IDAsIG1lc3NhZ2VzID0gMDsKICBmb3IgKGNvbnN0IHIgb2Ygcm9vbXMudmFsdWVzKCkpIHsgdXNlcnMgKz0gci5jbGllbnRzLnNpemU7IG1lc3NhZ2VzICs9IHIubWVzc2FnZXMubGVuZ3RoOyB9CiAgcmVzLmpzb24oeyBvazogdHJ1ZSwgdmVyc2lvbjogNSwgdXB0aW1lOiBNYXRoLmZsb29yKHByb2Nlc3MudXB0aW1lKCkpLCByb29tczogcm9vbXMuc2l6ZSwgdXNlcnMsIG1lc3NhZ2VzIH0pOwp9KTsKCmFwcC5nZXQoJy9hZG1pbi9yb29tcycsIGFkbWluQXV0aCwgKHJlcSwgcmVzKSA9PiB7CiAgY29uc3QgbGlzdCA9IFsuLi5yb29tcy5lbnRyaWVzKCldLm1hcCgoW2NvZGUsIHJdKSA9PiAoewogICAgY29kZSwgdXNlcnM6IHIuY2xpZW50cy5zaXplLCBtZXNzYWdlczogci5tZXNzYWdlcy5sZW5ndGgsIGxhc3RBY3RpdmU6IHIubGFzdEFjdGl2ZSB8fCAwCiAgfSkpOwogIGxpc3Quc29ydCgoYSwgYikgPT4gYi5sYXN0QWN0aXZlIC0gYS5sYXN0QWN0aXZlKTsKICByZXMuanNvbih7IG9rOiB0cnVlLCByb29tczogbGlzdCB9KTsKfSk7CgphcHAuZ2V0KCcvYWRtaW4vcm9vbS86Y29kZScsIGFkbWluQXV0aCwgKHJlcSwgcmVzKSA9PiB7CiAgY29uc3QgY29kZSA9IGNsZWFuUm9vbShyZXEucGFyYW1zLmNvZGUpOwogIGNvbnN0IHJvb20gPSByb29tcy5nZXQoY29kZSk7CiAgaWYgKCFyb29tKSByZXR1cm4gcmVzLmpzb24oeyBvazogZmFsc2UsIGVycm9yOiAnTm8gc3VjaCByb29tLicgfSk7CiAgcmVzLmpzb24oeyBvazogdHJ1ZSwgcm9vbTogY29kZSwgdXNlcnM6IG9ubGluZVVzZXJzKHJvb20pLCBtZXNzYWdlczogcm9vbS5tZXNzYWdlcy5zbGljZSgtMTAwKSB9KTsKfSk7CgphcHAucG9zdCgnL2FkbWluL2RlbGV0ZS1tZXNzYWdlJywgYWRtaW5BdXRoLCAocmVxLCByZXMpID0+IHsKICBjb25zdCBjb2RlID0gY2xlYW5Sb29tKHJlcS5ib2R5ICYmIHJlcS5ib2R5LnJvb20pOwogIGNvbnN0IGlkID0gTnVtYmVyKHJlcS5ib2R5ICYmIHJlcS5ib2R5LmlkKTsKICBjb25zdCByb29tID0gcm9vbXMuZ2V0KGNvZGUpOwogIGlmICghcm9vbSkgcmV0dXJuIHJlcy5qc29uKHsgb2s6IGZhbHNlLCBlcnJvcjogJ05vIHN1Y2ggcm9vbS4nIH0pOwogIGNvbnN0IGkgPSByb29tLm1lc3NhZ2VzLmZpbmRJbmRleChtID0+IG0uaWQgPT09IGlkKTsKICBpZiAoaSA8IDApIHJldHVybiByZXMuanNvbih7IG9rOiBmYWxzZSwgZXJyb3I6ICdNZXNzYWdlIG5vdCBmb3VuZC4nIH0pOwogIHJvb20ubWVzc2FnZXMuc3BsaWNlKGksIDEpOwogIGJyb2FkY2FzdFRvUm9vbShyb29tLCB7IHR5cGU6ICdtZXNzYWdlX2RlbGV0ZWQnLCBpZCB9KTsKICByZXMuanNvbih7IG9rOiB0cnVlIH0pOwp9KTsKCmFwcC5wb3N0KCcvYWRtaW4vY2xlYXItcm9vbScsIGFkbWluQXV0aCwgKHJlcSwgcmVzKSA9PiB7CiAgY29uc3QgY29kZSA9IGNsZWFuUm9vbShyZXEuYm9keSAmJiByZXEuYm9keS5yb29tKTsKICBjb25zdCByb29tID0gcm9vbXMuZ2V0KGNvZGUpOwogIGlmICghcm9vbSkgcmV0dXJuIHJlcy5qc29uKHsgb2s6IGZhbHNlLCBlcnJvcjogJ05vIHN1Y2ggcm9vbS4nIH0pOwogIHJvb20ubWVzc2FnZXMubGVuZ3RoID0gMDsKICBicm9hZGNhc3RUb1Jvb20ocm9vbSwgeyB0eXBlOiAncm9vbV9jbGVhcmVkJyB9KTsKICByZXMuanNvbih7IG9rOiB0cnVlIH0pOwp9KTsKCmFwcC5wb3N0KCcvYWRtaW4va2ljaycsIGFkbWluQXV0aCwgKHJlcSwgcmVzKSA9PiB7CiAgY29uc3QgY29kZSA9IGNsZWFuUm9vbShyZXEuYm9keSAmJiByZXEuYm9keS5yb29tKTsKICBjb25zdCB1c2VyID0gY2xlYW5OYW1lKHJlcS5ib2R5ICYmIHJlcS5ib2R5LnVzZXIpOwogIGNvbnN0IHJvb20gPSByb29tcy5nZXQoY29kZSk7CiAgaWYgKCFyb29tKSByZXR1cm4gcmVzLmpzb24oeyBvazogZmFsc2UsIGVycm9yOiAnTm8gc3VjaCByb29tLicgfSk7CiAgbGV0IG4gPSAwOwogIGZvciAoY29uc3QgW3dzLCBjXSBvZiBbLi4ucm9vbS5jbGllbnRzXSkgewogICAgaWYgKGMudXNlciA9PT0gdXNlcikgewogICAgICB0cnkgeyB3cy5zZW5kKEpTT04uc3RyaW5naWZ5KHsgdHlwZTogJ2tpY2tlZCcsIHJlYXNvbjogJ1JlbW92ZWQgYnkgYW4gYWRtaW4uJyB9KSk7IH0gY2F0Y2ggKGUpIHt9CiAgICAgIHRyeSB7IHdzLmNsb3NlKDQwMDAsICdraWNrZWQnKTsgfSBjYXRjaCAoZSkge30KICAgICAgbisrOwogICAgfQogIH0KICBicm9hZGNhc3RUb1Jvb20ocm9vbSwgeyB0eXBlOiAndXNlcl9raWNrZWQnLCB1c2VyIH0pOwogIHJlcy5qc29uKHsgb2s6IHRydWUsIGtpY2tlZDogbiB9KTsKfSk7CgphcHAucG9zdCgnL2FkbWluL2Fubm91bmNlJywgYWRtaW5BdXRoLCAocmVxLCByZXMpID0+IHsKICBjb25zdCB0ZXh0ID0gU3RyaW5nKChyZXEuYm9keSAmJiByZXEuYm9keS50ZXh0KSB8fCAnJykudHJpbSgpLnNsaWNlKDAsIDUwMCk7CiAgaWYgKCF0ZXh0KSByZXR1cm4gcmVzLmpzb24oeyBvazogZmFsc2UsIGVycm9yOiAnRW1wdHkgYW5ub3VuY2VtZW50LicgfSk7CiAgY29uc3QgbSA9IHsgaWQ6IG5leHRJZCsrLCB1c2VyOiAnWlNBVEMgQWRtaW4nLCBwaG9uZTogJycsIGtpbmQ6ICd0ZXh0JywgdGV4dCwgdHM6IERhdGUubm93KCksIHJlYWN0aW9uczoge30sIHN5c3RlbTogdHJ1ZSB9OwogIGxldCBuID0gMDsKICBmb3IgKGNvbnN0IHJvb20gb2Ygcm9vbXMudmFsdWVzKCkpIHsgcHVzaE1lc3NhZ2Uocm9vbSwgbSk7IG4rKzsgfQogIHJlcy5qc29uKHsgb2s6IHRydWUsIHJvb21zOiBuIH0pOwp9KTsKCi8qIC0tLS0tLS0tLS0tLS0tLS0gcHVibGljIHJvdXRlcyAtLS0tLS0tLS0tLS0tLS0tICovCgphcHAuZ2V0KCcvaGVhbHRoJywgKHJlcSwgcmVzKSA9PiB7CiAgbGV0IHVzZXJzID0gMCwgbWVzc2FnZXMgPSAwOwogIGZvciAoY29uc3QgciBvZiByb29tcy52YWx1ZXMoKSkgeyB1c2VycyArPSByLmNsaWVudHMuc2l6ZTsgbWVzc2FnZXMgKz0gci5tZXNzYWdlcy5sZW5ndGg7IH0KICByZXMuanNvbih7IG9rOiB0cnVlLCBzZXJ2aWNlOiAnenNhdGMtY2hhdC1zZXJ2ZXInLCB2ZXJzaW9uOiA1LCByb29tczogcm9vbXMuc2l6ZSwgdXNlcnMsIG1lc3NhZ2VzLCBhZG1pbjogISFBRE1JTl9UT0tFTiB9KTsKfSk7CgphcHAuZ2V0KCcvJywgKHJlcSwgcmVzKSA9PiB7CiAgcmVzLnNlbmQoJ1pTQVRDIENoYXQgU2VydmVyIGlzIHJ1bm5pbmcuIENvbm5lY3Qgd2l0aCB0aGUgd2ViIE9TIE1lc3NlbmdlciBhcHAuJyk7Cn0pOwoKd3NzLm9uKCdjb25uZWN0aW9uJywgKHdzKSA9PiB7CiAgbGV0IG15Um9vbSA9IG51bGw7CiAgbGV0IG15Q29kZSA9IG51bGw7CgogIHdzLm9uKCdtZXNzYWdlJywgKHJhdykgPT4gewogICAgbGV0IGQ7CiAgICB0cnkgeyBkID0gSlNPTi5wYXJzZShyYXcudG9TdHJpbmcoKSk7IH0gY2F0Y2ggeyByZXR1cm47IH0KCiAgICBpZiAoZC50eXBlID09PSAnaGVsbG8nKSB7CiAgICAgIG15Q29kZSA9IGNsZWFuUm9vbShkLnJvb20pOwogICAgICBteVJvb20gPSBnZXRSb29tKG15Q29kZSk7CiAgICAgIG15Um9vbS5jbGllbnRzLnNldCh3cywgeyB1c2VyOiBjbGVhbk5hbWUoZC51c2VyKSwgcGhvbmU6IGNsZWFuUGhvbmUoZC5waG9uZSksIGxhc3RNc2c6IDAsIGxhc3RUeXBpbmc6IDAgfSk7CiAgICAgIHdzLnNlbmQoSlNPTi5zdHJpbmdpZnkoeyB0eXBlOiAnaGlzdG9yeScsIG1lc3NhZ2VzOiBteVJvb20ubWVzc2FnZXMgfSkpOwogICAgICB3cy5zZW5kKEpTT04uc3RyaW5naWZ5KHsgdHlwZTogJ3Jvb20nLCByb29tOiBteUNvZGUgfSkpOwogICAgICBicm9hZGNhc3RUb1Jvb20obXlSb29tLCB7IHR5cGU6ICdvbmxpbmUnLCB1c2Vyczogb25saW5lVXNlcnMobXlSb29tKSB9KTsKICAgICAgcmV0dXJuOwogICAgfQoKICAgIGlmICghbXlSb29tIHx8ICFteVJvb20uY2xpZW50cy5oYXMod3MpKSByZXR1cm47CiAgICBjb25zdCBjID0gbXlSb29tLmNsaWVudHMuZ2V0KHdzKTsKCiAgICBpZiAoZC50eXBlID09PSAnc2VuZCcpIHsKICAgICAgY29uc3QgdGV4dCA9IFN0cmluZyhkLnRleHQgfHwgJycpLnRyaW0oKS5zbGljZSgwLCA1MDApOwogICAgICBpZiAoIXRleHQgfHwgdGhyb3R0bGVkKHdzLCBjKSkgcmV0dXJuOwogICAgICBwdXNoTWVzc2FnZShteVJvb20sIHsgaWQ6IG5leHRJZCsrLCB1c2VyOiBjLnVzZXIsIHBob25lOiBjLnBob25lLCBraW5kOiAndGV4dCcsIHRleHQsIHRzOiBEYXRlLm5vdygpLCByZWFjdGlvbnM6IHt9IH0pOwogICAgICByZXR1cm47CiAgICB9CgogICAgaWYgKGQudHlwZSA9PT0gJ3NlbmRfaW1hZ2UnKSB7CiAgICAgIGNvbnN0IGltZyA9IFN0cmluZyhkLmltYWdlIHx8ICcnKTsKICAgICAgaWYgKCFpbWcuc3RhcnRzV2l0aCgnZGF0YTppbWFnZS8nKSB8fCBpbWcubGVuZ3RoID4gTUFYX0lNQUdFX0JZVEVTKSB7CiAgICAgICAgd3Muc2VuZChKU09OLnN0cmluZ2lmeSh7IHR5cGU6ICdlcnJvcicsIGVycm9yOiBpbWcubGVuZ3RoID4gTUFYX0lNQUdFX0JZVEVTID8gJ0ltYWdlIHRvbyBsYXJnZS4nIDogJ0ludmFsaWQgaW1hZ2UuJyB9KSk7CiAgICAgICAgcmV0dXJuOwogICAgICB9CiAgICAgIGlmICh0aHJvdHRsZWQod3MsIGMpKSByZXR1cm47CiAgICAgIHB1c2hNZXNzYWdlKG15Um9vbSwgeyBpZDogbmV4dElkKyssIHVzZXI6IGMudXNlciwgcGhvbmU6IGMucGhvbmUsIGtpbmQ6ICdpbWFnZScsIGltYWdlOiBpbWcsIHRzOiBEYXRlLm5vdygpLCByZWFjdGlvbnM6IHt9IH0pOwogICAgICByZXR1cm47CiAgICB9CgogICAgaWYgKGQudHlwZSA9PT0gJ3JlYWN0JykgewogICAgICBjb25zdCBpZCA9IE51bWJlcihkLmlkKTsKICAgICAgY29uc3QgZW1vamkgPSBTdHJpbmcoZC5lbW9qaSB8fCAnJyk7CiAgICAgIGlmICghUkVBQ1RfRU1PSklTLmluY2x1ZGVzKGVtb2ppKSkgcmV0dXJuOwogICAgICBjb25zdCBtID0gbXlSb29tLm1lc3NhZ2VzLmZpbmQobSA9PiBtLmlkID09PSBpZCk7CiAgICAgIGlmICghbSkgcmV0dXJuOwogICAgICBpZiAoIW0ucmVhY3Rpb25zKSBtLnJlYWN0aW9ucyA9IHt9OwogICAgICBjb25zdCBsaXN0ID0gbS5yZWFjdGlvbnNbZW1vamldIHx8IFtdOwogICAgICBpZiAobGlzdC5pbmNsdWRlcyhjLnVzZXIpKSB7CiAgICAgICAgbS5yZWFjdGlvbnNbZW1vamldID0gbGlzdC5maWx0ZXIodSA9PiB1ICE9PSBjLnVzZXIpOwogICAgICAgIGlmICghbS5yZWFjdGlvbnNbZW1vamldLmxlbmd0aCkgZGVsZXRlIG0ucmVhY3Rpb25zW2Vtb2ppXTsKICAgICAgfSBlbHNlIHsKICAgICAgICBtLnJlYWN0aW9uc1tlbW9qaV0gPSBbLi4ubGlzdCwgYy51c2VyXTsKICAgICAgfQogICAgICBicm9hZGNhc3RUb1Jvb20obXlSb29tLCB7IHR5cGU6ICdyZWFjdGlvbicsIGlkLCByZWFjdGlvbnM6IG0ucmVhY3Rpb25zIH0pOwogICAgICByZXR1cm47CiAgICB9CgogICAgaWYgKGQudHlwZSA9PT0gJ3R5cGluZycpIHsKICAgICAgY29uc3Qgbm93ID0gRGF0ZS5ub3coKTsKICAgICAgaWYgKG5vdyAtIGMubGFzdFR5cGluZyA8IDMwMDApIHJldHVybjsgLy8gcmVsYXkgYXQgbW9zdCBldmVyeSAzcyBwZXIgdXNlcgogICAgICBjLmxhc3RUeXBpbmcgPSBub3c7CiAgICAgIGJyb2FkY2FzdFRvUm9vbShteVJvb20sIHsgdHlwZTogJ3R5cGluZycsIHVzZXI6IGMudXNlciB9LCB3cyk7CiAgICAgIHJldHVybjsKICAgIH0KCiAgICBpZiAoZC50eXBlID09PSAncmVhZCcpIHsKICAgICAgY29uc3QgaWQgPSBOdW1iZXIoZC5pZCk7CiAgICAgIGlmICghaWQpIHJldHVybjsKICAgICAgYnJvYWRjYXN0VG9Sb29tKG15Um9vbSwgeyB0eXBlOiAncmVhZCcsIHVzZXI6IGMudXNlciwgaWQgfSwgd3MpOwogICAgICByZXR1cm47CiAgICB9CiAgfSk7CgogIHdzLm9uKCdjbG9zZScsICgpID0+IHsKICAgIGlmIChteVJvb20gJiYgbXlSb29tLmNsaWVudHMuZGVsZXRlKHdzKSkgewogICAgICBicm9hZGNhc3RUb1Jvb20obXlSb29tLCB7IHR5cGU6ICdvbmxpbmUnLCB1c2Vyczogb25saW5lVXNlcnMobXlSb29tKSB9KTsKICAgICAgaWYgKG15Um9vbS5jbGllbnRzLnNpemUgPT09IDApIHJvb21zLmRlbGV0ZShteUNvZGUpOwogICAgfQogIH0pOwp9KTsKCmNvbnN0IFBPUlQgPSBwcm9jZXNzLmVudi5QT1JUIHx8IDMwMDA7CnNlcnZlci5saXN0ZW4oUE9SVCwgKCkgPT4gY29uc29sZS5sb2coYFpTQVRDIGNoYXQgc2VydmVyIHY1IGxpc3RlbmluZyBvbiAke1BPUlR9YCkpOwo=
+/* ============================================================
+   ZSATC Chat Server v5 — private rooms + profiles + images
+   + reactions + typing indicators + read receipts
+   + ADMIN API (moderation panel)
+   Node.js + Express + WebSockets. Deploy as a Render Web Service.
+
+   Admin: set the ADMIN_TOKEN env var on Render. The admin panel
+   (zsatcmessengeradminpanel.html, hosted on the web OS site) sends
+   it as the x-admin-token header. Without ADMIN_TOKEN set, the
+   admin API is disabled.
+
+   Protocol (unchanged from v4):
+   - hello { user, phone, room } -> history, room, online
+   - send { text } -> message { kind:'text' }
+   - send_image { image } -> message { kind:'image' }
+   - react { id, emoji } -> reaction { id, reactions }
+   - typing {} -> typing { user } (relayed, throttled)
+   - read { id } -> read { user, id } (relayed)
+   New live mod events (broadcast to room):
+   - message_deleted { id } | room_cleared {} | user_kicked { user }
+   - kicked { reason } (sent to the kicked socket before close)
+   - message { message.system: true } (admin announcements)
+
+   Admin API (all require x-admin-token):
+   - GET  /admin/stats
+   - GET  /admin/rooms
+   - GET  /admin/room/:code
+   - POST /admin/delete-message { room, id }
+   - POST /admin/clear-room { room }
+   - POST /admin/kick { room, user }
+   - POST /admin/announce { text }
+   ============================================================ */
+
+const express = require('express');
+const http = require('http');
+const crypto = require('crypto');
+const { WebSocketServer } = require('ws');
+
+const app = express();
+const server = http.createServer(app);
+const wss = new WebSocketServer({ server });
+
+app.use(express.json({ limit: '1mb' }));
+
+// CORS: the admin panel is hosted on the web OS site, the API on Render
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, x-admin-token');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  next();
+});
+
+const MAX_MESSAGES = 200;
+const MAX_IMAGE_BYTES = 700 * 1024; // 700KB cap per image (client downscales first)
+const REACT_EMOJIS = ['❤️', '👍', '😂', '😮', '😢', '🔥', '👏'];
+const ADMIN_TOKEN = process.env.ADMIN_TOKEN || '';
+const rooms = new Map(); // roomCode -> { messages: [], clients: Map(ws -> {user, phone, lastMsg, lastTyping}), lastActive }
+let nextId = 1;
+
+function cleanName(raw) {
+  return String(raw || 'guest')
+    .replace(/[^A-Za-z0-9 _-]/g, '')
+    .trim()
+    .slice(0, 24) || 'guest';
+}
+
+function cleanPhone(raw) {
+  return String(raw || '')
+    .replace(/[^0-9+()\-.\s]/g, '')
+    .trim()
+    .slice(0, 20);
+}
+
+function cleanRoom(raw) {
+  return String(raw || 'lobby')
+    .replace(/[^A-Za-z0-9_-]/g, '')
+    .trim()
+    .slice(0, 32) || 'lobby';
+}
+
+function getRoom(code) {
+  if (!rooms.has(code)) rooms.set(code, { messages: [], clients: new Map(), lastActive: Date.now() });
+  return rooms.get(code);
+}
+
+function onlineUsers(room) {
+  const seen = new Map();
+  for (const c of room.clients.values()) {
+    if (!seen.has(c.user)) seen.set(c.user, { user: c.user, phone: c.phone });
+  }
+  return [...seen.values()];
+}
+
+function broadcastToRoom(room, obj, except) {
+  const data = JSON.stringify(obj);
+  for (const [ws] of room.clients) {
+    if (ws !== except && ws.readyState === 1) ws.send(data);
+  }
+}
+
+function throttled(ws, c) {
+  const now = Date.now();
+  if (now - c.lastMsg < 2000) {
+    ws.send(JSON.stringify({ type: 'error', error: 'Slow down a little.' }));
+    return true;
+  }
+  c.lastMsg = now;
+  return false;
+}
+
+function pushMessage(room, m) {
+  room.messages.push(m);
+  room.lastActive = Date.now();
+  if (room.messages.length > MAX_MESSAGES) room.messages.shift();
+  broadcastToRoom(room, { type: 'message', message: m });
+}
+
+/* ---------------- admin auth ---------------- */
+
+function adminAuth(req, res, next) {
+  if (!ADMIN_TOKEN) {
+    return res.status(503).json({ ok: false, error: 'Admin panel is not configured. Set ADMIN_TOKEN in the server environment.' });
+  }
+  const t = String(req.header('x-admin-token') || req.query.token || '');
+  let good = false;
+  try {
+    good = t.length === ADMIN_TOKEN.length &&
+      crypto.timingSafeEqual(Buffer.from(t), Buffer.from(ADMIN_TOKEN));
+  } catch (e) { good = false; }
+  if (!good) return res.status(403).json({ ok: false, error: 'Bad admin token.' });
+  next();
+}
+
+/* ---------------- admin API ---------------- */
+
+app.get('/admin/stats', adminAuth, (req, res) => {
+  let users = 0, messages = 0;
+  for (const r of rooms.values()) { users += r.clients.size; messages += r.messages.length; }
+  res.json({ ok: true, version: 5, uptime: Math.floor(process.uptime()), rooms: rooms.size, users, messages });
+});
+
+app.get('/admin/rooms', adminAuth, (req, res) => {
+  const list = [...rooms.entries()].map(([code, r]) => ({
+    code, users: r.clients.size, messages: r.messages.length, lastActive: r.lastActive || 0
+  }));
+  list.sort((a, b) => b.lastActive - a.lastActive);
+  res.json({ ok: true, rooms: list });
+});
+
+app.get('/admin/room/:code', adminAuth, (req, res) => {
+  const code = cleanRoom(req.params.code);
+  const room = rooms.get(code);
+  if (!room) return res.json({ ok: false, error: 'No such room.' });
+  res.json({ ok: true, room: code, users: onlineUsers(room), messages: room.messages.slice(-100) });
+});
+
+app.post('/admin/delete-message', adminAuth, (req, res) => {
+  const code = cleanRoom(req.body && req.body.room);
+  const id = Number(req.body && req.body.id);
+  const room = rooms.get(code);
+  if (!room) return res.json({ ok: false, error: 'No such room.' });
+  const i = room.messages.findIndex(m => m.id === id);
+  if (i < 0) return res.json({ ok: false, error: 'Message not found.' });
+  room.messages.splice(i, 1);
+  broadcastToRoom(room, { type: 'message_deleted', id });
+  res.json({ ok: true });
+});
+
+app.post('/admin/clear-room', adminAuth, (req, res) => {
+  const code = cleanRoom(req.body && req.body.room);
+  const room = rooms.get(code);
+  if (!room) return res.json({ ok: false, error: 'No such room.' });
+  room.messages.length = 0;
+  broadcastToRoom(room, { type: 'room_cleared' });
+  res.json({ ok: true });
+});
+
+app.post('/admin/kick', adminAuth, (req, res) => {
+  const code = cleanRoom(req.body && req.body.room);
+  const user = cleanName(req.body && req.body.user);
+  const room = rooms.get(code);
+  if (!room) return res.json({ ok: false, error: 'No such room.' });
+  let n = 0;
+  for (const [ws, c] of [...room.clients]) {
+    if (c.user === user) {
+      try { ws.send(JSON.stringify({ type: 'kicked', reason: 'Removed by an admin.' })); } catch (e) {}
+      try { ws.close(4000, 'kicked'); } catch (e) {}
+      n++;
+    }
+  }
+  broadcastToRoom(room, { type: 'user_kicked', user });
+  res.json({ ok: true, kicked: n });
+});
+
+app.post('/admin/announce', adminAuth, (req, res) => {
+  const text = String((req.body && req.body.text) || '').trim().slice(0, 500);
+  if (!text) return res.json({ ok: false, error: 'Empty announcement.' });
+  const m = { id: nextId++, user: 'ZSATC Admin', phone: '', kind: 'text', text, ts: Date.now(), reactions: {}, system: true };
+  let n = 0;
+  for (const room of rooms.values()) { pushMessage(room, m); n++; }
+  res.json({ ok: true, rooms: n });
+});
+
+/* ---------------- public routes ---------------- */
+
+app.get('/health', (req, res) => {
+  let users = 0, messages = 0;
+  for (const r of rooms.values()) { users += r.clients.size; messages += r.messages.length; }
+  res.json({ ok: true, service: 'zsatc-chat-server', version: 5, rooms: rooms.size, users, messages, admin: !!ADMIN_TOKEN });
+});
+
+app.get('/', (req, res) => {
+  res.send('ZSATC Chat Server is running. Connect with the web OS Messenger app.');
+});
+
+wss.on('connection', (ws) => {
+  let myRoom = null;
+  let myCode = null;
+
+  ws.on('message', (raw) => {
+    let d;
+    try { d = JSON.parse(raw.toString()); } catch { return; }
+
+    if (d.type === 'hello') {
+      myCode = cleanRoom(d.room);
+      myRoom = getRoom(myCode);
+      myRoom.clients.set(ws, { user: cleanName(d.user), phone: cleanPhone(d.phone), lastMsg: 0, lastTyping: 0 });
+      ws.send(JSON.stringify({ type: 'history', messages: myRoom.messages }));
+      ws.send(JSON.stringify({ type: 'room', room: myCode }));
+      broadcastToRoom(myRoom, { type: 'online', users: onlineUsers(myRoom) });
+      return;
+    }
+
+    if (!myRoom || !myRoom.clients.has(ws)) return;
+    const c = myRoom.clients.get(ws);
+
+    if (d.type === 'send') {
+      const text = String(d.text || '').trim().slice(0, 500);
+      if (!text || throttled(ws, c)) return;
+      pushMessage(myRoom, { id: nextId++, user: c.user, phone: c.phone, kind: 'text', text, ts: Date.now(), reactions: {} });
+      return;
+    }
+
+    if (d.type === 'send_image') {
+      const img = String(d.image || '');
+      if (!img.startsWith('data:image/') || img.length > MAX_IMAGE_BYTES) {
+        ws.send(JSON.stringify({ type: 'error', error: img.length > MAX_IMAGE_BYTES ? 'Image too large.' : 'Invalid image.' }));
+        return;
+      }
+      if (throttled(ws, c)) return;
+      pushMessage(myRoom, { id: nextId++, user: c.user, phone: c.phone, kind: 'image', image: img, ts: Date.now(), reactions: {} });
+      return;
+    }
+
+    if (d.type === 'react') {
+      const id = Number(d.id);
+      const emoji = String(d.emoji || '');
+      if (!REACT_EMOJIS.includes(emoji)) return;
+      const m = myRoom.messages.find(m => m.id === id);
+      if (!m) return;
+      if (!m.reactions) m.reactions = {};
+      const list = m.reactions[emoji] || [];
+      if (list.includes(c.user)) {
+        m.reactions[emoji] = list.filter(u => u !== c.user);
+        if (!m.reactions[emoji].length) delete m.reactions[emoji];
+      } else {
+        m.reactions[emoji] = [...list, c.user];
+      }
+      broadcastToRoom(myRoom, { type: 'reaction', id, reactions: m.reactions });
+      return;
+    }
+
+    if (d.type === 'typing') {
+      const now = Date.now();
+      if (now - c.lastTyping < 3000) return; // relay at most every 3s per user
+      c.lastTyping = now;
+      broadcastToRoom(myRoom, { type: 'typing', user: c.user }, ws);
+      return;
+    }
+
+    if (d.type === 'read') {
+      const id = Number(d.id);
+      if (!id) return;
+      broadcastToRoom(myRoom, { type: 'read', user: c.user, id }, ws);
+      return;
+    }
+  });
+
+  ws.on('close', () => {
+    if (myRoom && myRoom.clients.delete(ws)) {
+      broadcastToRoom(myRoom, { type: 'online', users: onlineUsers(myRoom) });
+      if (myRoom.clients.size === 0) rooms.delete(myCode);
+    }
+  });
+});
+
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => console.log(`ZSATC chat server v5 listening on ${PORT}`));

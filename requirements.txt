@@ -1,0 +1,8 @@
+# ZSATC Chat Server — dependency notes.
+# This is a Node.js project: all dependencies live in package.json
+# (Render runs `npm install` from it automatically).
+# This file exists for completeness; Node tooling ignores it.
+#
+# Equivalent packages:
+#   express ^4.19.2   → web framework (HTTP + routing)
+#   ws      ^8.18.0   → WebSocket server

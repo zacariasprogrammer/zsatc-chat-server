@@ -58,6 +58,12 @@ const ADMIN_TOKEN = process.env.ADMIN_TOKEN || '';
 const rooms = new Map(); // roomCode -> { messages: [], clients: Map(ws -> {user, phone, lastMsg, lastTyping}), lastActive }
 let nextId = 1;
 
+// server power mode: 'online' | 'maintenance' | 'shutdown'
+// maintenance/shutdown block joins and sends; the admin API stays up
+let serverMode = 'online';
+let modeMessage = '';
+const MODE_LABEL = { online: 'online', maintenance: 'maintenance mode', shutdown: 'shut down' };
+
 function cleanName(raw) {
   return String(raw || 'guest')
     .replace(/[^A-Za-z0-9 _-]/g, '')
@@ -137,7 +143,7 @@ function adminAuth(req, res, next) {
 app.get('/admin/stats', adminAuth, (req, res) => {
   let users = 0, messages = 0;
   for (const r of rooms.values()) { users += r.clients.size; messages += r.messages.length; }
-  res.json({ ok: true, version: 5, uptime: Math.floor(process.uptime()), rooms: rooms.size, users, messages });
+  res.json({ ok: true, version: 5, uptime: Math.floor(process.uptime()), rooms: rooms.size, users, messages, mode: serverMode });
 });
 
 app.get('/admin/rooms', adminAuth, (req, res) => {
@@ -202,12 +208,38 @@ app.post('/admin/announce', adminAuth, (req, res) => {
   res.json({ ok: true, rooms: n });
 });
 
+// server power: online | maintenance | shutdown
+app.post('/admin/power', adminAuth, (req, res) => {
+  const mode = String((req.body && req.body.mode) || '').trim();
+  if (!['online', 'maintenance', 'shutdown'].includes(mode)) {
+    return res.json({ ok: false, error: "Mode must be 'online', 'maintenance' or 'shutdown'." });
+  }
+  const message = String((req.body && req.body.message) || '').trim().slice(0, 200);
+  serverMode = mode;
+  modeMessage = message;
+  const icon = mode === 'online' ? '🟢' : mode === 'maintenance' ? '🔧' : '🛑';
+  const sysText = mode === 'online'
+    ? '🟢 Server is back online.'
+    : `${icon} Server ${MODE_LABEL[mode]}${message ? ': ' + message : ''}`;
+  // tell every room, then bounce everyone if we're going down
+  for (const room of rooms.values()) {
+    pushMessage(room, { id: nextId++, user: 'ZSATC Admin', phone: '', kind: 'text', text: sysText, ts: Date.now(), reactions: {}, system: true });
+    if (mode !== 'online') {
+      for (const [ws] of [...room.clients]) {
+        try { ws.send(JSON.stringify({ type: mode, message: modeMessage })); } catch (e) {}
+        try { ws.close(4001, mode); } catch (e) {}
+      }
+    }
+  }
+  res.json({ ok: true, mode: serverMode });
+});
+
 /* ---------------- public routes ---------------- */
 
 app.get('/health', (req, res) => {
   let users = 0, messages = 0;
   for (const r of rooms.values()) { users += r.clients.size; messages += r.messages.length; }
-  res.json({ ok: true, service: 'zsatc-chat-server', version: 5, rooms: rooms.size, users, messages, admin: !!ADMIN_TOKEN });
+  res.json({ ok: true, service: 'zsatc-chat-server', version: 5, rooms: rooms.size, users, messages, admin: !!ADMIN_TOKEN, mode: serverMode });
 });
 
 app.get('/', (req, res) => {
@@ -223,6 +255,11 @@ wss.on('connection', (ws) => {
     try { d = JSON.parse(raw.toString()); } catch { return; }
 
     if (d.type === 'hello') {
+      if (serverMode !== 'online') {
+        try { ws.send(JSON.stringify({ type: serverMode, message: modeMessage })); } catch (e) {}
+        try { ws.close(4001, serverMode); } catch (e) {}
+        return;
+      }
       myCode = cleanRoom(d.room);
       myRoom = getRoom(myCode);
       myRoom.clients.set(ws, { user: cleanName(d.user), phone: cleanPhone(d.phone), lastMsg: 0, lastTyping: 0 });
@@ -236,6 +273,10 @@ wss.on('connection', (ws) => {
     const c = myRoom.clients.get(ws);
 
     if (d.type === 'send') {
+      if (serverMode !== 'online') {
+        ws.send(JSON.stringify({ type: 'error', error: `Server is ${MODE_LABEL[serverMode]}.` }));
+        return;
+      }
       const text = String(d.text || '').trim().slice(0, 500);
       if (!text || throttled(ws, c)) return;
       pushMessage(myRoom, { id: nextId++, user: c.user, phone: c.phone, kind: 'text', text, ts: Date.now(), reactions: {} });
@@ -243,6 +284,10 @@ wss.on('connection', (ws) => {
     }
 
     if (d.type === 'send_image') {
+      if (serverMode !== 'online') {
+        ws.send(JSON.stringify({ type: 'error', error: `Server is ${MODE_LABEL[serverMode]}.` }));
+        return;
+      }
       const img = String(d.image || '');
       if (!img.startsWith('data:image/') || img.length > MAX_IMAGE_BYTES) {
         ws.send(JSON.stringify({ type: 'error', error: img.length > MAX_IMAGE_BYTES ? 'Image too large.' : 'Invalid image.' }));
